@@ -1,53 +1,58 @@
 # ME_700_Assignment_1
 
-This package contains implementations of root-finding methods (Newton's method and Bisection method) and elasto-plastic material models (Kinematic and Isotropic hardening).
+## Root-Finding Methods and Elasto-Plastic Material Models
+
+This package provides implementations of advanced engineering computational methods, including:
+
+- Root-finding algorithms:
+  - Newton's method
+  - Bisection method
+- Elasto-plastic material models:
+  - Kinematic hardening
+  - Isotropic hardening
+
+### Features
+
+- Robust numerical methods for solving nonlinear equations
+- Accurate modeling of material behavior under various loading conditions
+- Easy-to-use interfaces for both root-finding and material modeling
 
 ## Installation
 
 Follow these steps to set up the project on your local machine:
 
-1. Clone the repository:
+1. **Clone the repository:**
 
-    git clone https://github.com/DVinals4721/ME_700_Assignment_1.git
+   In terminal:
+   git clone https://github.com/DVinals4721/ME_700_Assignment_1.git
+   cd ME_700_Assignment_1
 
-    cd me_700_assignment_1
+2. **Create and activate a virtual environment (optional but recommended):**
 
+    python -m venv venv
+    source venv/bin/activate  # On Windows, use: venv\Scripts\activate
 
-2. Create and activate a virtual environment (optional but recommended):
-python -m venv venv source venv/bin/activate # On Windows, use: venv\Scripts\activate
+3. **nstall the package in editable mode:**
 
+    pip install -e .
 
-3. Install the package in editable mode:
-pip install -e .
+**Usage Examples**
 
+    After installation, explore the functionality through our example scripts:
 
-## Running Examples
+    Newton's Method
 
-After installation, you can run the example scripts to see the methods in action.
+        python examples/newton_example.py
 
-### Newton's Method Example
+    Bisection Method
 
-To run the Newton's method example:
+        python examples/bisection_example.py
 
-python examples/newton_example.py
+    Kinematic Hardening Model
 
+        python examples/kinematic_hardening_example.py
 
-### Bisection Method Example
+    Isotropic Hardening Model
 
-To run the Bisection method example:
+        python examples/isotropic_hardening_example.py
 
-python examples/bisection_example.py
-
-
-### Kinematic Hardening Model Example
-
-To run the Kinematic Hardening model example:
-
-python examples/kinematic_hardening_example.py
-
-
-### Isotropic Hardening Model Example
-
-To run the Isotropic Hardening model example:
-
-python examples/isotropic_hardening_example.py
