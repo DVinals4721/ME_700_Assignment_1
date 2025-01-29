@@ -23,18 +23,18 @@ Follow these steps to set up the project on your local machine:
 
 1. **Clone the repository:**
 
-    In terminal:
-    git clone https://github.com/DVinals4721/ME_700_Assignment_1.git
-    cd ME_700_Assignment_1
+    
+        git clone https://github.com/DVinals4721/ME_700_Assignment_1.git
+        cd ME_700_Assignment_1
 
 2. **Create and activate a virtual environment (optional but recommended):**
 
-    python -m venv venv
-    source venv/bin/activate  # On Windows, use: venv\Scripts\activate
+        python -m venv venv
+        source venv/bin/activate  # On Windows, use: venv\Scripts\activate
 
 3. **Install the package in editable mode:**
 
-    pip install -e .
+        pip install -e .
 
 **Usage Examples**
 
