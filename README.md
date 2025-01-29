@@ -8,9 +8,9 @@ Follow these steps to set up the project on your local machine:
 
 1. Clone the repository:
 
-git clone https://github.com/DVinals4721/me_700_assignment_1.git 
+    git clone https://github.com/DVinals4721/ME_700_Assignment_1.git
 
-cd me_700_assignment_1
+    cd me_700_assignment_1
 
 
 2. Create and activate a virtual environment (optional but recommended):
