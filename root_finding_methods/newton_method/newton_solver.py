@@ -5,14 +5,16 @@ class NewtonMethodSolver:
     def __init__(self,
                  max_iterations: int = 100,
                  tolerance: float = 1e-6,
-                 divergence_threshold: float = 1e10):
+                 divergence_threshold: float = 1e10,
+                 h: float = 1e-7):
         """
-        Initialize Newton's method solver with divergence detection.
+        Initialize Newton's method solver with divergence detection and numerical differentiation.
 
         Args:
             max_iterations (int): Maximum iteration limit
             tolerance (float): Convergence threshold
             divergence_threshold (float): Maximum value before considering divergence
+            h (float): Step size for numerical differentiation
 
         Raises:
             ValueError: If parameters are invalid
@@ -21,41 +23,46 @@ class NewtonMethodSolver:
             raise ValueError("Max iterations must be positive")
         if tolerance <= 0:
             raise ValueError("Tolerance must be positive")
+        if h <= 0:
+            raise ValueError("Step size h must be positive")
 
         self.max_iterations = max_iterations
         self.tolerance = tolerance
         self.divergence_threshold = divergence_threshold
+        self.h = h
 
-    def check_derivative(self, func: Callable[[float], float], deriv: Callable[[float], float], x: float) -> bool:
-        epsilon = 1e-7  # Small perturbation for numerical derivative
-        numerical_deriv = (func(x + epsilon) - func(x)) / epsilon  # Numerical approximation of the derivative
-        provided_deriv = deriv(x)
+    def numerical_derivative(self, func: Callable[[float], float], x: float) -> float:
+        """
+        Calculate the numerical derivative of the function at point x.
 
-        # Print for debugging
-        print(f"At x = {x}:")
-        print(f"Numerical Derivative: {numerical_deriv}")
-        print(f"Provided Derivative: {provided_deriv}")
-        print(f"Difference: {abs(numerical_deriv - provided_deriv)}")
-        print("-" * 20)
+        Args:
+            func (Callable[[float], float]): The function to differentiate
+            x (float): The point at which to calculate the derivative
 
-        # Check if the absolute difference is within the tolerance
-        return abs(numerical_deriv - provided_deriv) < self.tolerance
-
+        Returns:
+            float: The numerical derivative
+        """
+        return (func(x + self.h) - func(x - self.h)) / (2 * self.h)
 
     def solve(self,
               func: Callable[[float], float],
-              deriv: Callable[[float], float],
               initial_guess: float) -> Tuple[float, int]:
         """
-        Find root using Newton's method with divergence detection.
-        """
-        # Input validation
-        if not (callable(func) and callable(deriv)):
-            raise TypeError("Function and derivative must be callable")
+        Find root using Newton's method with divergence detection and numerical differentiation.
 
-        # Check if the provided derivative is correct
-        if not self.check_derivative(func, deriv, initial_guess):
-            raise ValueError("The provided derivative is not the correct derivative of the function")
+        Args:
+            func (Callable[[float], float]): The function to find the root of
+            initial_guess (float): The initial guess for the root
+
+        Returns:
+            Tuple[float, int]: The root and the number of iterations
+
+        Raises:
+            TypeError: If the function is not callable
+            ValueError: If the solution diverges or fails to converge
+        """
+        if not callable(func):
+            raise TypeError("Function must be callable")
 
         x = initial_guess
         for iterations in range(self.max_iterations):
@@ -69,8 +76,8 @@ class NewtonMethodSolver:
             if abs(x) > self.divergence_threshold:
                 raise ValueError(f"Solution diverged after {iterations} iterations")
 
-            # Compute derivative
-            dfx = deriv(x)
+            # Compute derivative numerically
+            dfx = self.numerical_derivative(func, x)
 
             # Prevent division by zero
             if abs(dfx) < self.tolerance:

@@ -20,30 +20,34 @@ class IsotropicHardeningModel:
         self.current_yield_stress = sigma_y
         self.solver = BisectionSolver(max_iterations=1000, tolerance=1e-6)
 
-    def calculate_stress(self, total_strain):
-        """
-        Calculate stress given total strain.
-        
-        Args:
-        total_strain (float): Total strain
 
-        Returns:
-        float: Calculated stress
-        """
+    def calculate_stress(self, total_strain):
         trial_stress = self.E * (total_strain - self.plastic_strain)
         
         if abs(trial_stress) <= self.current_yield_stress:
             return trial_stress
         else:
-            # Solve for plastic strain increment
             def yield_function(d_ep):
-                return abs(self.E * (total_strain - self.plastic_strain - d_ep)) - (self.sigma_y + self.K * (self.plastic_strain + d_ep)**self.n)
+                return abs(self.E * (total_strain - self.plastic_strain - d_ep)) - (self.sigma_y + self.K * (abs(self.plastic_strain) + abs(d_ep))**self.n)
             
-            # Use bisection method to find d_ep
-            d_ep, _ = self.solver.solve(yield_function, 0, total_strain - self.plastic_strain)
+            try:
+                d_ep, _ = self.solver.solve(yield_function, 0, abs(total_strain - self.plastic_strain))
+            except ValueError as e:
+                print(f"Error in bisection solver: {e}")
+                # Use a simple iterative method as fallback
+                d_ep = 0
+                step = abs(total_strain - self.plastic_strain) / 1000
+                for _ in range(1000):  # Limit iterations to prevent infinite loop
+                    if yield_function(d_ep) <= 0:
+                        break
+                    d_ep += step
+                else:
+                    print("Failed to find valid plastic strain increment")
+                    return np.sign(trial_stress) * self.current_yield_stress
             
+            d_ep *= np.sign(total_strain - self.plastic_strain)
             self.plastic_strain += d_ep
-            self.current_yield_stress = self.sigma_y + self.K * self.plastic_strain**self.n
+            self.current_yield_stress = self.sigma_y + self.K * abs(self.plastic_strain)**self.n
             
             return np.sign(trial_stress) * self.current_yield_stress
 

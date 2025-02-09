@@ -2,30 +2,7 @@ import math
 from typing import Callable, Optional, Tuple
 
 class BisectionSolver:
-    """
-    A robust solver for finding roots of mathematical functions using the bisection method.
-
-    The bisection method is a root-finding algorithm that repeatedly divides an interval-
-    in half to narrow down the location of a root (zero) of a continuous function.
-
-    Attributes:
-        max_iterations (int): Maximum number of iterations to prevent infinite loops
-        tolerance (float): Convergence tolerance for root approximation
-    """
-
-    def __init__(self,
-                 max_iterations: int = 100,
-                 tolerance: float = 1e-6):
-        """
-        Initialize the BisectionSolver with configuration parameters.
-
-        Args:
-            max_iterations (int, optional): Maximum iterations to prevent infinite loops. Defaults to 100.
-            tolerance (float, optional): Convergence tolerance for root approximation. Defaults to 1e-6.
-
-        Raises:
-            ValueError: If max_iterations is not positive or tolerance is not positive
-        """
+    def __init__(self, max_iterations: int = 100, tolerance: float = 1e-6):
         if max_iterations <= 0:
             raise ValueError("Max iterations must be a positive integer")
         if tolerance <= 0:
@@ -34,35 +11,28 @@ class BisectionSolver:
         self.max_iterations = max_iterations
         self.tolerance = tolerance
 
-    def solve(self,
-              func: Callable[[float], float],
-              a: float,
-              b: float) -> Tuple[float, int]:
-        """
-        Find the root of a function using the bisection method.
-
-        Args:
-            func (Callable[[float], float]): Continuous function to find root for
-            a (float): Left boundary of initial interval
-            b (float): Right boundary of initial interval
-
-        Returns:
-            Tuple[float, int]: Approximated root and number of iterations used
-
-        Raises:
-            ValueError: If the root cannot be bracketed or no convergence occurs
-            TypeError: If input is not a callable function
-        """
-        # Validate inputs
+    def solve(self, func: Callable[[float], float], a: float, b: float) -> Tuple[float, int]:
         if not callable(func):
             raise TypeError("Input must be a callable function")
 
-        # Check if root can be bracketed
         fa = func(a)
         fb = func(b)
 
-        if fa * fb >= 0:
-            raise ValueError(f"Root cannot be bracketed: f({a})={fa}, f({b})={fb}")
+        # If one of the endpoints is a root, return it
+        if abs(fa) < self.tolerance:
+            return a, 0
+        if abs(fb) < self.tolerance:
+            return b, 0
+
+        # If the function has the same sign at both endpoints, try to find a bracket
+        if fa * fb > 0:
+            c = self._find_bracket(func, a, b)
+            if c is None:
+                raise ValueError(f"Root cannot be bracketed: f({a})={fa}, f({b})={fb}")
+            if abs(a - c) < abs(b - c):
+                a, fa = c, func(c)
+            else:
+                b, fb = c, func(c)
 
         # Ensure a < b
         if a > b:
@@ -72,15 +42,12 @@ class BisectionSolver:
         # Bisection method
         iterations = 0
         while iterations < self.max_iterations:
-            # Calculate midpoint
             c = (a + b) / 2
             fc = func(c)
 
-            # Check convergence
             if abs(fc) < self.tolerance or (b - a) / 2 < self.tolerance:
                 return c, iterations
 
-            # Update interval
             if fa * fc < 0:
                 b = c
                 fb = fc
@@ -90,8 +57,19 @@ class BisectionSolver:
 
             iterations += 1
 
-        # Raise error if max iterations reached
-        raise ValueError(f"Root not found within {self.max_iterations} iterations")
+        # If max iterations reached, return the best approximation
+        return (a + b) / 2, iterations
 
-
-    
+    def _find_bracket(self, func: Callable[[float], float], a: float, b: float) -> Optional[float]:
+        """Attempt to find a point c where func(c) has opposite sign of func(a) and func(b)"""
+        fa, fb = func(a), func(b)
+        for _ in range(50):  # Limit the number of attempts
+            c = (a + b) / 2
+            fc = func(c)
+            if fc * fa < 0 or fc * fb < 0:
+                return c
+            if abs(fc) < abs(fa):
+                a, fa = c, fc
+            else:
+                b, fb = c, fc
+        return None

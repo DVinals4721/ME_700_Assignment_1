@@ -8,30 +8,33 @@ class TestNewtonMethodSolver:
 
     def test_polynomial_root(self):
         def f(x): return x**2 - 4
-        def df(x): return 2*x
 
-        root, iterations = self.solver.solve(f, df, 3)
+        root, iterations = self.solver.solve(f, 3)
         assert math.isclose(root, 2, abs_tol=1e-6)
 
     def test_trigonometric_root(self):
         def f(x): return math.sin(x)
-        def df(x): return math.cos(x)
 
-        root, iterations = self.solver.solve(f, df, 3)
+        root, iterations = self.solver.solve(f, 3)
         assert math.isclose(root, math.pi, abs_tol=1e-6)
 
     def test_invalid_inputs(self):
         with pytest.raises(TypeError):
-            self.solver.solve("not func", lambda x: x, 0)
+            self.solver.solve("not func", 0)
 
-    def test_incorrect_derivative(self):
-        def f(x):
-            return x ** 2 - 2  # Example function x^2 - 2
+    def test_non_convergence(self):
+        def f(x): return math.exp(x) - 1
 
-        def incorrect_df(x):
-            return x  # Incorrect derivative (should be 2x, but it's x)
+        with pytest.raises(ValueError) as excinfo:
+            self.solver.solve(f, 100)  # Start with a large initial guess
+        assert "Failed to converge" in str(excinfo.value)
 
+    def test_near_zero_derivative(self):
+        def f(x): return x**3 - x**2
 
-        # Use pytest.raises to check that ValueError is raised for incorrect derivative
-        with pytest.raises(ValueError):
-            self.solver.solve(f, incorrect_df, initial_guess=1.0)
+        # This might not raise an error, but should return a result close to the root
+        root, iterations = self.solver.solve(f, 1)
+        assert math.isclose(root, 0, abs_tol=1e-6) or math.isclose(root, 1, abs_tol=1e-6)
+
+if __name__ == "__main__":
+    pytest.main()
