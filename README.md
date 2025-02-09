@@ -20,9 +20,11 @@ This package provides implementations of advanced engineering computational meth
 
 1. **Clone the repository:**
 
-   bash
-   git clone https://github.com/DVinals4721/ME_700_Assignments.git
-   cd ME_700_Assignments
+  bash
+
+  git clone https://github.com/DVinals4721/ME_700_Assignments.git
+
+  cd ME_700_Assignments
 
 2. **Set up a Conda environment:**
 
