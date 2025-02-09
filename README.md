@@ -9,9 +9,6 @@ This package provides implementations of advanced engineering computational meth
   - Kinematic hardening
   - Isotropic hardening
 
-Here's the updated Markdown format with all code lines in copyable code blocks:
-
-```markdown
 ## Installation and Usage
 
 
@@ -92,6 +89,6 @@ python examples/kinematic_hardening_example.py
 ```bash
 python examples/isotropic_hardening_example.py
 ```
-```
+
 
 
