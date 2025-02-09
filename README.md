@@ -9,70 +9,91 @@ This package provides implementations of advanced engineering computational meth
   - Kinematic hardening
   - Isotropic hardening
 
-# Installation and Testing
+Here's the updated Markdown format with all code lines in copyable code blocks:
 
-## Prerequisites
-- Git
-- Conda (or Mamba)
-- Python 3.12
+```markdown
+# Installation and Usage
 
 ## Steps
 
-1. **Clone the repository:**
-      bash
+1. Clone the repository:
 
-      git clone https://github.com/DVinals4721/ME_700_Assignments.git
+   ```bash
+   git clone https://github.com/DVinals4721/ME_700_Assignments.git
+   cd ME_700_Assignments
+   ```
 
-      cd ME_700_Assignments
+2. Set up a Conda environment:
 
-2. **Set up a Conda environment:**
+   ```bash
+   conda create --name me-700-env python=3.12
+   conda activate me-700-env
+   ```
 
-    conda create --name me-700-env python=3.12
-    conda activate me-700-env
+   Note: You can also use mamba if you prefer.
 
-Note: You can also use mamba if you prefer.
+3. Verify Python version:
 
-3. **Verify Python version:**
+   ```bash
+   python --version
+   ```
 
-    python --version
+   Ensure it shows version 3.12.
 
-Ensure it shows version 3.12.
+4. Update pip and essential tools:
 
-4. **Update pip and essential tools:**
+   ```bash
+   pip install --upgrade pip setuptools wheel
+   ```
 
-    pip install --upgrade pip setuptools wheel
+5. Install the package in editable mode:
 
-5. **Install the package in editable mode:**
+   ```bash
+   pip install -e .
+   ```
 
-    pip install -e .
+   Make sure you're in the correct directory (ME_700_Assignments) when running this command.
 
-Make sure you're in the correct directory (ME_700_Assignments) when running this command.
+6. Install pytest and pytest-cov for testing:
 
-6. **Install pytest and pytest-cov for testing:**
+   ```bash
+   pip install pytest pytest-cov
+   ```
 
-    pip install pytest pytest-cov
+7. Run tests with coverage:
 
-7. **Run tests with coverage:**
+   ```bash
+   pytest -v --cov=root_finding_methods --cov-report term-missing
+   ```
 
-    pytest -v --cov=root_finding_methods --cov-report term-missing
-
-**Usage Examples**
+## Usage Examples
 
 After installation, explore the functionality through our example scripts:
 
-Newton's Method
+### Newton's Method
 
-    python examples/newton_example.py
+```bash
+python examples/newton_example.py
+```
 
-Bisection Method
+### Bisection Method
 
-    python examples/bisection_example.py
+```bash
+python examples/bisection_example.py
+```
 
-Kinematic Hardening Model
+### Kinematic Hardening Model
 
-    python examples/kinematic_hardening_example.py
+```bash
+python examples/kinematic_hardening_example.py
+```
 
-Isotropic Hardening Model
+### Isotropic Hardening Model
 
-    python examples/isotropic_hardening_example.py
+```bash
+python examples/isotropic_hardening_example.py
+```
+```
+
+This format ensures that all code blocks are easily copyable, making it more convenient for users to execute the commands.
 
