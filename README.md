@@ -1,6 +1,4 @@
-# ME_700_Assignment_1
-
-## Root-Finding Methods and Elasto-Plastic Material Models
+# ME_700_Assignments
 
 This package provides implementations of advanced engineering computational methods, including:
 
@@ -10,12 +8,6 @@ This package provides implementations of advanced engineering computational meth
 - Elasto-plastic material models:
   - Kinematic hardening
   - Isotropic hardening
-
-### Features
-
-- Robust numerical methods for solving nonlinear equations
-- Accurate modeling of material behavior under various loading conditions
-- Easy-to-use interfaces for both root-finding and material modeling
 
 ## Installation
 
