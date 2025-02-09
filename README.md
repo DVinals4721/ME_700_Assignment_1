@@ -9,24 +9,51 @@ This package provides implementations of advanced engineering computational meth
   - Kinematic hardening
   - Isotropic hardening
 
-## Installation
+# Installation and Testing
 
-Follow these steps to set up the project on your local machine:
+## Prerequisites
+- Git
+- Conda (or Mamba)
+- Python 3.12
+
+## Steps
 
 1. **Clone the repository:**
 
-    
-        git clone https://github.com/DVinals4721/ME_700_Assignment_1.git
-        cd ME_700_Assignment_1
+   bash
+   git clone https://github.com/DVinals4721/ME_700_Assignments.git
+   cd ME_700_Assignments
 
-2. **Create and activate a virtual environment (optional but recommended):**
+2. **Set up a Conda environment:**
 
-        python -m venv venv
-        source venv/bin/activate  # On Windows, use: venv\Scripts\activate
+    conda create --name me-700-env python=3.12
+    conda activate me-700-env
 
-3. **Install the package in editable mode:**
+Note: You can also use mamba if you prefer.
 
-        pip install -e .
+3. **Verify Python version:**
+
+    python --version
+
+Ensure it shows version 3.12.
+
+4. **Update pip and essential tools:**
+
+    pip install --upgrade pip setuptools wheel
+
+5. **Install the package in editable mode:**
+
+    pip install -e .
+
+Make sure you're in the correct directory (ME_700_Assignments) when running this command.
+
+6. **Install pytest and pytest-cov for testing:**
+
+    pip install pytest pytest-cov
+
+7. **Run tests with coverage:**
+
+    pytest -v --cov=root_finding_methods --cov-report term-missing
 
 **Usage Examples**
 
