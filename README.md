@@ -12,9 +12,8 @@ This package provides implementations of advanced engineering computational meth
 Here's the updated Markdown format with all code lines in copyable code blocks:
 
 ```markdown
-# Installation and Usage
+## Installation and Usage
 
-## Steps
 
 1. Clone the repository:
 
@@ -95,5 +94,4 @@ python examples/isotropic_hardening_example.py
 ```
 ```
 
-This format ensures that all code blocks are easily copyable, making it more convenient for users to execute the commands.
 
