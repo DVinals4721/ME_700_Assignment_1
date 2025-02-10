@@ -69,25 +69,25 @@ After installation, explore the functionality through our example scripts:
 ### Newton's Method
 
 ```bash
-python examples/newton_example.py
+python examples/newton_examples.py
 ```
 
 ### Bisection Method
 
 ```bash
-python examples/bisection_example.py
+python examples/bisection_examples.py
 ```
 
 ### Kinematic Hardening Model
 
 ```bash
-python examples/kinematic_hardening_example.py
+python examples/kinematic_hardening_examples.py
 ```
 
 ### Isotropic Hardening Model
 
 ```bash
-python examples/isotropic_hardening_example.py
+python examples/isotropic_hardening_examples.py
 ```
 
 
