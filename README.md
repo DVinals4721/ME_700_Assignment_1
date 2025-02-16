@@ -78,16 +78,10 @@ python examples/newton_examples.py
 python examples/bisection_examples.py
 ```
 
-### Kinematic Hardening Model
+### Elasto Model
 
 ```bash
-python examples/kinematic_hardening_examples.py
-```
-
-### Isotropic Hardening Model
-
-```bash
-python examples/isotropic_hardening_examples.py
+python examples/elasto_model_examples.py
 ```
 
 
