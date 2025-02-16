@@ -61,6 +61,9 @@ This package provides implementations of advanced engineering computational meth
    ```bash
    pytest -v --cov=root_finding_methods --cov-report term-missing
    ```
+   ```bash
+   pytest -v --cov=elasto_plastic_models --cov-report term-missing
+   ```
 
 ## Usage Examples
 
