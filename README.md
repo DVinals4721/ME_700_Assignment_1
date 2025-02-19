@@ -1,5 +1,5 @@
 # ME_700_Assignment_1
-![GitHub Actions](https://github.com/DVinals4721/ME_700_Assignment_1/actions/workflows/main.yml/badge.svg)
+![GitHub Actions](https://github.com/DVinals4721/ME_700_Assignment_1/actions/workflows/test.yml/badge.svg)
 [![codecov](https://codecov.io/gh/DVinals4721/ME_700_Assignment_1/branch/main/graph/badge.svg)](https://codecov.io/gh/DVinals4721/ME_700_Assignment_1)
 ![GitHub issues](https://img.shields.io/github/issues/DVinals4721/ME_700_Assignment_1)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/DVinals4721/ME_700_Assignment_1)
