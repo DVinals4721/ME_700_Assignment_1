@@ -1,4 +1,8 @@
 # ME_700_Assignment_1
+![GitHub Actions](https://github.com/DVinals4721/ME_700_Assignment_1/actions/workflows/main.yml/badge.svg)
+[![codecov](https://codecov.io/gh/DVinals4721/ME_700_Assignment_1/branch/main/graph/badge.svg)](https://codecov.io/gh/DVinals4721/ME_700_Assignment_1)
+![GitHub issues](https://img.shields.io/github/issues/DVinals4721/ME_700_Assignment_1)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/DVinals4721/ME_700_Assignment_1)
 
 This package provides implementations of advanced engineering computational methods, including:
 
@@ -64,7 +68,20 @@ This package provides implementations of advanced engineering computational meth
    ```bash
    pytest -v --cov=elasto_plastic_models --cov-report term-missing
    ```
+9. Run tests with pytest:
 
+   ```bash
+   pytest tests/test_bisection_method.py
+   ```
+   ```bash
+   pytest tests/test_newton_method.py
+   ```
+   ```bash
+   pytest tests/test_isotropic_hardening.py
+   ```
+   ```bash
+   pytest tests/test_kinematic_hardening.py
+   ```
 ## Usage Examples
 
 After installation, explore the functionality through our example scripts:
