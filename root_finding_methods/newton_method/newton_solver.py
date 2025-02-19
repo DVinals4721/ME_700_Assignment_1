@@ -1,4 +1,5 @@
 import math
+import numpy as np
 from typing import Callable, Tuple
 
 class NewtonMethodSolver:
@@ -8,7 +9,7 @@ class NewtonMethodSolver:
                  divergence_threshold: float = 1e10,
                  h: float = 1e-7):
         """
-        Initialize Newton's method solver with divergence detection and numerical differentiation.
+        Initialize Newton's method solver for systems of equations with divergence detection and numerical differentiation.
 
         Args:
             max_iterations (int): Maximum iteration limit
@@ -31,35 +32,43 @@ class NewtonMethodSolver:
         self.divergence_threshold = divergence_threshold
         self.h = h
 
-    def numerical_derivative(self, func: Callable[[float], float], x: float) -> float:
+    def numerical_jacobian(self, func: Callable[[np.ndarray], np.ndarray], x: np.ndarray) -> np.ndarray:
         """
-        Calculate the numerical derivative of the function at point x.
+        Calculate the numerical Jacobian of the function at point x.
 
         Args:
-            func (Callable[[float], float]): The function to differentiate
-            x (float): The point at which to calculate the derivative
+            func (Callable[[np.ndarray], np.ndarray]): The system of equations
+            x (np.ndarray): The point at which to calculate the Jacobian
 
         Returns:
-            float: The numerical derivative
+            np.ndarray: The numerical Jacobian
         """
-        return (func(x + self.h) - func(x - self.h)) / (2 * self.h)
+        n = len(x)
+        J = np.zeros((n, n))
+        for i in range(n):
+            x_plus = x.copy()
+            x_minus = x.copy()
+            x_plus[i] += self.h
+            x_minus[i] -= self.h
+            J[:, i] = (func(x_plus) - func(x_minus)) / (2 * self.h)
+        return J
 
     def solve(self,
-              func: Callable[[float], float],
-              initial_guess: float) -> Tuple[float, int]:
+            func: Callable[[np.ndarray], np.ndarray],
+            initial_guess: np.ndarray) -> Tuple[np.ndarray, int]:
         """
-        Find root using Newton's method with divergence detection and numerical differentiation.
+        Find root of a system of equations using Newton's method with divergence detection and numerical differentiation.
 
         Args:
-            func (Callable[[float], float]): The function to find the root of
-            initial_guess (float): The initial guess for the root
+            func (Callable[[np.ndarray], np.ndarray]): The system of equations to solve
+            initial_guess (np.ndarray): The initial guess for the solution
 
         Returns:
-            Tuple[float, int]: The root and the number of iterations
+            Tuple[np.ndarray, int]: The solution and the number of iterations
 
         Raises:
             TypeError: If the function is not callable
-            ValueError: If the solution diverges or fails to converge
+            ValueError: If the solution diverges, fails to converge, or encounters a singular Jacobian
         """
         if not callable(func):
             raise TypeError("Function must be callable")
@@ -69,21 +78,27 @@ class NewtonMethodSolver:
             fx = func(x)
 
             # Check convergence
-            if abs(fx) < self.tolerance:
+            if np.linalg.norm(fx) < self.tolerance:
                 return x, iterations
 
             # Check divergence
-            if abs(x) > self.divergence_threshold:
+            if np.linalg.norm(x) > self.divergence_threshold:
                 raise ValueError(f"Solution diverged after {iterations} iterations")
 
-            # Compute derivative numerically
-            dfx = self.numerical_derivative(func, x)
+            # Compute Jacobian numerically
+            J = self.numerical_jacobian(func, x)
 
-            # Prevent division by zero
-            if abs(dfx) < self.tolerance:
-                raise ValueError("Derivative too close to zero")
+            # Check for singular Jacobian
+            if np.linalg.cond(J) > 1 / np.finfo(float).eps:
+                raise ValueError(f"Encountered singular Jacobian at iteration {iterations}")
+
+            # Solve linear system J * delta_x = -fx
+            try:
+                delta_x = np.linalg.solve(J, -fx)
+            except np.linalg.LinAlgError:
+                raise ValueError(f"Failed to solve linear system at iteration {iterations}")
 
             # Newton's method update
-            x = x - fx / dfx
+            x = x + delta_x
 
         raise ValueError(f"Failed to converge after {self.max_iterations} iterations")
