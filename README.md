@@ -61,6 +61,9 @@ This package provides implementations of advanced engineering computational meth
    ```
 
 7. Run tests with coverage:
+   ```bash
+   pytest -v --cov=. --cov-report=xml
+   ```
 
    ```bash
    pytest -v --cov=root_finding_methods --cov-report term-missing
